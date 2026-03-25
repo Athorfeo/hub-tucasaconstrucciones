@@ -3,8 +3,8 @@
 import { Card } from "@/shared/components/ui/card"
 import { useI18n } from "@/shared/lib/i18n-context"
 import { ProjectList } from "@/features/projects/components/project-list"
-import { EditRoleDialog } from "@/features/admin/components/edit-role-dialog"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { 
   Users2, 
   UserCog,
@@ -29,7 +29,7 @@ export function DashboardContent({ profile }: DashboardContentProps) {
   }
 
   return (
-    <div className="flex flex-col gap-10 max-w-7xl mx-auto py-6 px-4 animate-in fade-in duration-700">
+    <div className="flex flex-col gap-10 max-w-7xl mx-auto py-6 px-4">
       {/* Top Section: Header (Minimal) */}
       <div className="flex justify-between items-center px-2">
         <div>
@@ -39,13 +39,13 @@ export function DashboardContent({ profile }: DashboardContentProps) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        {/* RIGHT Column (Projects) first on mobile, then LG 7/12 */}
-        <div className="lg:col-span-7 order-1 lg:order-2">
+        {/* Main Column: Projects (First on Mobile, Left on Desktop 7/12) */}
+        <div className="lg:col-span-7 space-y-6">
           <ProjectList />
         </div>
 
-        {/* LEFT Column (Management) second on mobile, then LG 5/12 */}
-        <div className="lg:col-span-5 order-2 lg:order-1 space-y-10">
+        {/* Sidebar Column: Management (Second on Mobile, Right on Desktop 5/12) */}
+        <div className="lg:col-span-5 space-y-10">
           <div className="space-y-6">
             <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.4em] ml-1">{t("common.management")}</h3>
             <Card className="border border-border bg-card/50 p-8 rounded-[2.5rem] relative overflow-hidden group shadow-3xl">
@@ -53,20 +53,10 @@ export function DashboardContent({ profile }: DashboardContentProps) {
               <div className="flex items-center gap-6 mb-8">
                 <div className="flex aspect-square size-16 items-center justify-center rounded-2xl bg-card border border-border shadow-2xl relative">
                   <Users2 className="size-7 text-foreground" />
-                  <div className="absolute -top-1 -right-1 size-3.5 rounded-full bg-brand-red border-4 border-card shadow-[0_0_10px_rgba(255,0,0,0.5)]" />
                 </div>
                 <div className="space-y-1 flex-1">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col">
                     <h2 className="text-xl font-black uppercase tracking-tight text-foreground">{profile?.full_name || '...'}</h2>
-                    {profile && (
-                      <EditRoleDialog 
-                        userId={profile.id}
-                        email={profile.email}
-                        currentRole={profile.role}
-                        userName={profile.full_name}
-                        onUpdate={handleUpdate}
-                      />
-                    )}
                   </div>
                   <div className="flex flex-col gap-1">
                     <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight italic">{profile?.email}</p>
@@ -130,11 +120,6 @@ export function DashboardContent({ profile }: DashboardContentProps) {
             </div>
           </div>
         </div>
-
-        {/* Right Column: Projects (7/12) */}
-        <div className="lg:col-span-7">
-          <ProjectList />
-        </div>
       </div>
     </div>
   )
@@ -144,7 +129,7 @@ function MenuActionItem({ icon, title, desc, href, show = true }: { icon: React.
   if (!show) return null
 
   return (
-    <a href={href} className="group/item flex items-center justify-between p-4 rounded-2xl hover:bg-foreground hover:text-background transition-all duration-300">
+    <Link href={href} className="group/item flex items-center justify-between p-4 rounded-2xl hover:bg-foreground hover:text-background transition-all duration-300">
       <div className="flex items-center gap-4">
         <div className="size-10 rounded-xl bg-background flex items-center justify-center border border-border group-hover/item:bg-background group-hover/item:border-transparent transition-colors">
           <div className="text-muted-foreground group-hover/item:text-foreground transition-colors">
@@ -157,6 +142,6 @@ function MenuActionItem({ icon, title, desc, href, show = true }: { icon: React.
         </div>
       </div>
       <ChevronRight className="size-4 text-muted-foreground group-hover/item:text-brand-red transition-all group-hover/item:translate-x-1" />
-    </a>
+    </Link>
   )
 }

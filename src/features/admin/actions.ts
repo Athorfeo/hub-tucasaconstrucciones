@@ -24,6 +24,12 @@ export async function updateProfile(userId: string, data: { role?: string }) {
     throw new Error(`Permission denied. Role: ${adminProfile.role}`)
   }
 
+  // CRITICAL SECURITY FIX: Prevent normal users from elevating their own roles
+  if (isUpdatingSelf && !isAdmin && data.role) {
+    console.error("DEBUG: Privilege escalation attempted - User tried to change their own role")
+    throw new Error("Unauthorized: Users cannot modify their own role")
+  }
+
   // Bypassing RLS with Admin Client for role updates
   const supabase = await createAdminClient()
 

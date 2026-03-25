@@ -21,7 +21,7 @@ export function ProjectCard({ title, location, status, date, progress }: Project
   }
 
   return (
-    <Card className="group border border-border bg-card p-5 rounded-3xl hover:border-muted-foreground/30 transition-all cursor-pointer relative overflow-hidden">
+    <Card className="group border border-border bg-card p-5 rounded-3xl hover:border-muted-foreground/30 hover:scale-[0.98] active:scale-95 transition-all duration-300 cursor-pointer relative overflow-hidden">
       <div className="flex flex-col gap-4">
         <div className="flex justify-between items-start">
           <div className="space-y-1">

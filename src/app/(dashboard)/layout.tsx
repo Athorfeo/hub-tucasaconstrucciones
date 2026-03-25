@@ -1,13 +1,6 @@
-import { AppSidebar } from "@/components/app-sidebar"
-import { ThemeToggle } from "@/components/theme-toggle"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
-import { Separator } from "@/components/ui/separator"
+import { MobileBottomNav } from "@/components/mobile-bottom-nav"
 import { getProfile } from "@/features/auth/queries"
-
+import { PageHeader } from "@/shared/components/page-header"
 import { DashboardHeader } from "@/shared/components/dashboard-header"
 
 export default async function DashboardLayout({
@@ -18,14 +11,16 @@ export default async function DashboardLayout({
   const profile = await getProfile()
 
   return (
-    <SidebarProvider>
-      <AppSidebar profile={profile} />
-      <SidebarInset className="bg-background">
-        <DashboardHeader />
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:p-10 bg-background">
-          {children}
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+    <div className="min-h-screen bg-background flex flex-col">
+      <DashboardHeader profile={profile} />
+      
+      {/* Añadimos margin-top para compensar el header flotante, y margin-bottom en móvil para la barra inferior */}
+      <main className="flex-1 w-full max-w-7xl mx-auto pt-24 pb-20 md:pb-10 px-4">
+        <PageHeader />
+        {children}
+      </main>
+      
+      <MobileBottomNav profile={profile} />
+    </div>
   )
 }

@@ -38,14 +38,16 @@ export function ProjectList() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 overflow-y-auto max-h-[600px] pr-2 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
+      <div className="grid grid-cols-1 gap-4 overflow-y-auto max-h-[600px] pr-2 scrollbar-thin scrollbar-thumb-tailwind scrollbar-track-transparent">
         {filtered.length === 0 ? (
           <div className="p-10 text-center border border-dashed border-border rounded-3xl">
             <p className="text-xs font-bold text-muted-foreground/60 uppercase tracking-widest italic">{t("common.no_results")}</p>
           </div>
         ) : (
-          filtered.map(project => (
-            <ProjectCard key={project.id} {...project} />
+          filtered.map((project, i) => (
+            <div key={project.id}>
+              <ProjectCard {...project} />
+            </div>
           ))
         )}
       </div>
