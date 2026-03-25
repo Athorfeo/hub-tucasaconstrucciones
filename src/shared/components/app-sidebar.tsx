@@ -10,8 +10,14 @@ import {
   PieChart, 
   CalendarDays,
   LogOut,
-  ChevronRight
+  ChevronRight,
+  ShieldCheck,
+  UserCog,
+  Languages,
+  Plus
 } from "lucide-react"
+
+import { useI18n } from "@/shared/lib/i18n-context"
 
 import {
   Sidebar,
@@ -35,38 +41,47 @@ import {
   CollapsibleTrigger 
 } from "@/components/ui/collapsible"
 
-const data = {
-  user: {
-    name: "Administrador",
-    email: "admin@tucasaconstrucciones.com",
-    avatar: "/avatars/admin.jpg",
-  },
-  management: [
-    { title: "Proveedores", url: "/proveedores", icon: Building2 },
-    { title: "Socios", url: "/socios", icon: UserRound },
-    { title: "Trabajadores", url: "/trabajadores", icon: Users2 },
-  ],
-  projects: [
-    { title: "Listado", url: "/proyectos", icon: FolderKanban },
-    { title: "Presupuestos", url: "/presupuestos", icon: PieChart },
-    { title: "Cronogramas", url: "/cronogramas", icon: CalendarDays },
-  ],
-}
+export function AppSidebar({ profile, ...props }: React.ComponentProps<typeof Sidebar> & { profile: any }) {
+  const { t, locale, setLocale } = useI18n()
+  const isAdmin = profile?.role === 'admin' || profile?.role === 'superadmin'
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const navigationData = {
+    management: [
+      { title: t("common.suppliers"), url: "/suppliers", icon: Building2 },
+      { title: t("common.partners"), url: "/partners", icon: UserRound },
+      { title: t("common.workers"), url: "/workers", icon: Users2 },
+    ],
+    projects: [
+      { title: t("common.list"), url: "/projects", icon: FolderKanban },
+      { title: t("common.budgets"), url: "/budgets", icon: PieChart },
+      { title: t("common.timelines"), url: "/timelines", icon: CalendarDays },
+    ],
+    admin: [
+      { title: t("common.users"), url: "/admin/users", icon: UserCog },
+    ]
+  }
+
+  const user = {
+    name: profile?.full_name || profile?.email?.split('@')[0] || t("common.staff"),
+    email: profile?.email || "No email",
+    avatar: "/avatars/user.jpg",
+  }
+
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
+      <SidebarHeader className="border-b border-white/5">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" render={<a href="/" />}>
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-red-600 text-sidebar-primary-foreground">
-                <Building2 className="size-5" />
-              </div>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold tracking-tight">Tu Casa Construcciones</span>
-                <span className="truncate text-xs text-muted-foreground italic">Hub Central</span>
-              </div>
+            <SidebarMenuButton size="lg" render={<a href="/" />} className="hover:bg-transparent">
+              <div className="flex aspect-square size-8 items-center justify-center rounded-[0.6rem] bg-zinc-900 border border-white/5 shadow-xl group-data-[collapsible=icon]:size-10">
+              <div className="size-3 rounded-full bg-brand-red animate-pulse shadow-[0_0_10px_rgba(255,0,0,0.5)]" />
+            </div>
+            <div className="grid flex-1 text-left leading-tight">
+              <span className="truncate font-black text-lg uppercase tracking-tighter">
+                Hub<span className="text-brand-red">.</span>
+              </span>
+              <span className="truncate text-[8px] font-bold uppercase tracking-[0.2em] text-zinc-500">Construction Mgmt</span>
+            </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -76,22 +91,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarGroup>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton render={<a href="/" />} tooltip="Inicio" className="font-bold py-6">
+              <SidebarMenuButton render={<a href="/" />} tooltip={t("common.home")} className="font-bold py-6 hover:bg-white/5 transition-colors">
                 <LayoutDashboard className="!size-5" />
-                <span>Inicio</span>
+                <span>{t("common.home")}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-[10px] uppercase font-extrabold tracking-widest text-red-600/50 italic px-4">
-            Gestión
+          <SidebarGroupLabel className="text-[10px] uppercase font-bold tracking-[0.2em] text-zinc-500 px-4 mb-2">
+            {t("common.management")}
           </SidebarGroupLabel>
           <SidebarMenu className="gap-1 mt-1">
-            {data.management.map((item) => (
+            {navigationData.management.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton render={<a href={item.url} />} tooltip={item.title} className="h-10 rounded-xl px-4 hover:bg-red-500/5 hover:text-red-500 transition-all font-medium">
+                <SidebarMenuButton render={<a href={item.url} />} tooltip={item.title} className="h-10 rounded-xl px-4 hover:bg-white hover:text-black transition-all font-bold">
                   <item.icon className="!size-4" />
                   <span>{item.title}</span>
                 </SidebarMenuButton>
@@ -101,13 +116,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-[10px] uppercase font-extrabold tracking-widest text-zinc-500/50 italic px-4">
-            Proyectos
+          <SidebarGroupLabel className="text-[10px] uppercase font-bold tracking-[0.2em] text-zinc-500 px-4 mb-2">
+            {t("common.projects")}
           </SidebarGroupLabel>
           <SidebarMenu className="gap-1 mt-1">
-            {data.projects.map((item) => (
+            {navigationData.projects.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton render={<a href={item.url} />} tooltip={item.title} className="h-10 rounded-xl px-4 hover:bg-zinc-500/5 transition-all font-medium">
+                <SidebarMenuButton render={<a href={item.url} />} tooltip={item.title} className="h-10 rounded-xl px-4 hover:bg-white hover:text-black transition-all font-bold">
                   <item.icon className="!size-4" />
                   <span>{item.title}</span>
                 </SidebarMenuButton>
@@ -115,15 +130,63 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             ))}
           </SidebarMenu>
         </SidebarGroup>
+
+        {isAdmin && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-[10px] uppercase font-bold tracking-[0.2em] text-zinc-500 px-4 mb-2">
+              {t("common.staff_management")}
+            </SidebarGroupLabel>
+            <SidebarMenu className="gap-1 mt-1">
+              {navigationData.admin.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton render={<a href={item.url} />} tooltip={item.title} className="h-10 rounded-xl px-4 hover:bg-white hover:text-black transition-all font-bold">
+                    <item.icon className="!size-4" />
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroup>
+        )}
       </SidebarContent>
 
-      <SidebarFooter>
-        <SidebarMenu>
+      <SidebarFooter className="border-t border-white/5 p-4">
+        <SidebarMenu className="gap-3">
+          <SidebarMenuItem>
+             <div className="flex items-center justify-between px-2 mb-2">
+               <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Language</span>
+               <div className="flex gap-1">
+                 <button
+                  onClick={() => setLocale("es")}
+                  className={`text-[10px] font-bold px-2 py-1 rounded-md transition-all ${locale === 'es' ? 'bg-white text-black' : 'text-zinc-500 hover:text-white'}`}
+                 >
+                   ES
+                 </button>
+                 <button
+                  onClick={() => setLocale("en")}
+                  className={`text-[10px] font-bold px-2 py-1 rounded-md transition-all ${locale === 'en' ? 'bg-white text-black' : 'text-zinc-500 hover:text-white'}`}
+                 >
+                   EN
+                 </button>
+               </div>
+             </div>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <div className="flex items-center gap-3 p-2 rounded-xl bg-zinc-900 border border-white/5">
+              <div className="size-8 rounded-full bg-white flex items-center justify-center text-black text-xs font-black">
+                {user.name[0].toUpperCase()}
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-xs font-bold truncate text-white">{user.name}</span>
+                <span className="text-[10px] text-zinc-500 font-bold truncate uppercase tracking-tighter">{profile?.role || "No Role"}</span>
+              </div>
+            </div>
+          </SidebarMenuItem>
           <SidebarMenuItem>
             <form action={logout}>
-              <SidebarMenuButton type="submit" className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/30">
+              <SidebarMenuButton type="submit" className="text-zinc-400 hover:text-white hover:bg-white/5 font-bold h-10 rounded-xl">
                 <LogOut className="size-4" />
-                <span>Cerrar Sesión</span>
+                <span>{t("common.logout")}</span>
               </SidebarMenuButton>
             </form>
           </SidebarMenuItem>

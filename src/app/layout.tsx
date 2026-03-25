@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/shared/components/theme-provider";
+import { Toaster } from "sonner";
+import { I18nProvider } from "@/shared/lib/i18n-context";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -32,7 +34,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <I18nProvider>
+            {children}
+            <Toaster position="top-center" richColors />
+          </I18nProvider>
         </ThemeProvider>
       </body>
     </html>

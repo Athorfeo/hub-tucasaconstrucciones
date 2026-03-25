@@ -27,3 +27,28 @@ export async function createClient() {
     }
   )
 }
+
+/**
+ * Creates a Supabase client with the service_role key to bypass RLS.
+ * USE WITH EXTREME CAUTION - ONLY IN SERVER ACTIONS AFTER PERMISSION CHECKS.
+ */
+export async function createAdminClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  
+  if (!url || !key) {
+    console.error("DEBUG: createAdminClient failed - Missing URL or Key. URL present:", !!url, "Key present:", !!key)
+    throw new Error("Missing Supabase URL or Service Role Key in environment variables.")
+  }
+
+  return createServerClient(
+    url,
+    key,
+    {
+      cookies: {
+        getAll: () => [],
+        setAll: () => {},
+      },
+    }
+  )
+}
