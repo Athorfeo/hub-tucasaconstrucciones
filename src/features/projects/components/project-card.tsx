@@ -21,12 +21,12 @@ export function ProjectCard({ title, location, status, date, progress }: Project
   }
 
   return (
-    <Card className="group border border-white/5 bg-zinc-950 p-5 rounded-3xl hover:border-white/20 transition-all cursor-pointer relative overflow-hidden">
+    <Card className="group border border-border bg-card p-5 rounded-3xl hover:border-muted-foreground/30 transition-all cursor-pointer relative overflow-hidden">
       <div className="flex flex-col gap-4">
         <div className="flex justify-between items-start">
           <div className="space-y-1">
             <h4 className="font-black text-sm uppercase tracking-tight group-hover:text-brand-red transition-colors">{title}</h4>
-            <div className="flex items-center gap-2 text-zinc-500 font-bold text-[9px] uppercase tracking-widest">
+            <div className="flex items-center gap-2 text-muted-foreground font-bold text-[9px] uppercase tracking-widest">
               <MapPin className="size-2.5" />
               {location}
             </div>
@@ -38,15 +38,15 @@ export function ProjectCard({ title, location, status, date, progress }: Project
 
         <div className="space-y-2">
           <div className="flex justify-between items-end">
-            <div className="flex items-center gap-1.5 text-zinc-600 font-bold text-[8px] uppercase tracking-tighter">
+            <div className="flex items-center gap-1.5 text-muted-foreground/80 font-bold text-[8px] uppercase tracking-tighter">
               <Calendar className="size-2.5" />
               {date}
             </div>
-            <span className="font-black text-[10px] text-white">{progress}%</span>
+            <span className="font-black text-[10px] text-foreground">{progress}%</span>
           </div>
-          <div className="h-1 w-full bg-zinc-900 rounded-full overflow-hidden">
+          <div className="h-1 w-full bg-muted rounded-full overflow-hidden">
             <div 
-              className="h-full bg-white group-hover:bg-brand-red transition-all duration-500" 
+              className="h-full bg-foreground group-hover:bg-brand-red transition-all duration-500" 
               style={{ width: `${progress}%` }} 
             />
           </div>
