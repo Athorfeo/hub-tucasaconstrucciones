@@ -13,7 +13,9 @@ import {
   ChevronRight,
   LayoutGrid,
   FileText,
-  CalendarDays
+  CalendarDays,
+  Contact,
+  Landmark
 } from "lucide-react"
 
 interface DashboardContentProps {
@@ -67,15 +69,30 @@ export function DashboardContent({ profile }: DashboardContentProps) {
                 </div>
               </div>
 
-              {/* Management Actions (Menu Style) */}
               <div className="pt-4 border-t border-border">
+                <p className="text-[9px] font-black text-brand-red uppercase tracking-[0.3em] mb-4 px-2">Gestión Operativa</p>
+                <div className="space-y-2 mb-8">
+                  <MenuActionItem 
+                    icon={<Contact className="size-4" />} 
+                    title="Usuarios" 
+                    desc="Clientes, Proveedores y Empleados"
+                    href="/users"
+                  />
+                  <MenuActionItem 
+                    icon={<Landmark className="size-4" />} 
+                    title="Bancos" 
+                    desc="Entidades bancarias y cuentas"
+                    href="/admin/banks"
+                  />
+                </div>
+
                 <p className="text-[9px] font-black text-muted-foreground/60 uppercase tracking-[0.3em] mb-4 px-2">Opciones de Sistema</p>
                 <div className="space-y-2">
                   <MenuActionItem 
                     icon={<UserCog className="size-4" />} 
-                    title={t("common.users")} 
+                    title={t("common.profiles")} 
                     desc="Administrar equipo y accesos"
-                    href="/admin/users"
+                    href="/admin/profiles"
                     show={profile?.role === 'superadmin' || profile?.role === 'admin'}
                   />
                   <MenuActionItem 

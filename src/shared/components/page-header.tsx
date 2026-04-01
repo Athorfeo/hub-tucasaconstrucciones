@@ -18,7 +18,8 @@ export function PageHeader() {
     const href = "/" + segments.slice(0, index + 1).join("/")
     let label = segment.charAt(0).toUpperCase() + segment.slice(1)
     if (segment === "admin") label = t("common.admin") || "Admin"
-    if (segment === "users") label = t("common.users") || "Users"
+    if (segment === "users") label = t("common.users") || "Usuarios"
+    if (segment === "new") label = t("common.new") || "Nuevo"
     if (segment === "projects") label = t("common.projects") || "Projects"
     return { label, href, active: index === segments.length - 1 }
   })

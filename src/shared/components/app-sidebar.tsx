@@ -14,7 +14,9 @@ import {
   ShieldCheck,
   UserCog,
   Languages,
-  Plus
+  Plus,
+  Landmark,
+  Contact
 } from "lucide-react"
 
 import { useI18n } from "@/shared/lib/i18n-context"
@@ -47,9 +49,7 @@ export function AppSidebar({ profile, ...props }: React.ComponentProps<typeof Si
 
   const navigationData = {
     management: [
-      { title: t("common.suppliers"), url: "/suppliers", icon: Building2 },
-      { title: t("common.partners"), url: "/partners", icon: UserRound },
-      { title: t("common.workers"), url: "/workers", icon: Users2 },
+      { title: t("common.directory"), url: "/users", icon: Contact },
     ],
     projects: [
       { title: t("common.list"), url: "/projects", icon: FolderKanban },
@@ -57,7 +57,8 @@ export function AppSidebar({ profile, ...props }: React.ComponentProps<typeof Si
       { title: t("common.timelines"), url: "/timelines", icon: CalendarDays },
     ],
     admin: [
-      { title: t("common.users"), url: "/admin/users", icon: UserCog },
+      { title: t("common.profiles"), url: "/admin/profiles", icon: UserCog },
+      { title: t("common.banks"), url: "/admin/banks", icon: Landmark },
     ]
   }
 

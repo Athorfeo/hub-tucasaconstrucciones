@@ -12,7 +12,9 @@ import {
   Users2,
   Building2,
   UserCog,
-  LogOut
+  LogOut,
+  Landmark,
+  Contact
 } from "lucide-react"
 
 import { logout } from "@/features/auth/actions"
@@ -47,7 +49,7 @@ export function DashboardHeader({ profile }: { profile: any }) {
     const href = "/" + segments.slice(0, index + 1).join("/")
     let label = segment.charAt(0).toUpperCase() + segment.slice(1)
     if (segment === "admin") label = t("common.admin") || "Admin"
-    if (segment === "users") label = t("common.users") || "Users"
+    if (segment === "users") label = t("common.profiles") || "Users"
     if (segment === "projects") label = t("common.projects") || "Projects"
     return { label, href, active: index === segments.length - 1 }
   })
@@ -189,13 +191,9 @@ export function DashboardHeader({ profile }: { profile: any }) {
             <CommandSeparator className="bg-white/5 my-1 mx-2" />
             
             <CommandGroup heading="Gestión y Directorios" className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/60 px-2 py-3">
-              <CommandItem className="h-12 rounded-xl mb-1 cursor-pointer transition-colors aria-selected:bg-white/5 aria-selected:text-foreground" onSelect={() => runCommand(() => router.push("/workers"))}>
-                <Users2 className="mr-3 size-4 text-muted-foreground group-aria-selected:text-foreground" />
-                <span className="font-semibold text-sm">Personal Operativo</span>
-              </CommandItem>
-              <CommandItem className="h-12 rounded-xl mb-1 cursor-pointer transition-colors aria-selected:bg-white/5 aria-selected:text-foreground" onSelect={() => runCommand(() => router.push("/suppliers"))}>
-                <Building2 className="mr-3 size-4 text-muted-foreground group-aria-selected:text-foreground" />
-                <span className="font-semibold text-sm">Proveedores y Socios</span>
+              <CommandItem className="h-12 rounded-xl mb-1 cursor-pointer transition-colors aria-selected:bg-white/5 aria-selected:text-foreground" onSelect={() => runCommand(() => router.push("/users"))}>
+                <Contact className="mr-3 size-4 text-muted-foreground group-aria-selected:text-foreground" />
+                <span className="font-semibold text-sm">Usuarios</span>
               </CommandItem>
             </CommandGroup>
 
@@ -203,9 +201,13 @@ export function DashboardHeader({ profile }: { profile: any }) {
               <>
                 <CommandSeparator className="bg-white/5 my-1 mx-2" />
                 <CommandGroup heading="Seguridad y Sistema" className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/60 px-2 py-3">
-                  <CommandItem className="h-12 rounded-xl cursor-pointer transition-colors aria-selected:bg-brand-red/10 aria-selected:text-brand-red" onSelect={() => runCommand(() => router.push("/admin/users"))}>
+                  <CommandItem className="h-12 rounded-xl mb-1 cursor-pointer transition-colors aria-selected:bg-brand-red/10 aria-selected:text-brand-red" onSelect={() => runCommand(() => router.push("/admin/profiles"))}>
                     <UserCog className="mr-3 size-4 text-brand-red/70 group-aria-selected:text-brand-red" />
                     <span className="font-semibold text-sm text-brand-red/90 group-aria-selected:text-brand-red">Control de Accesos (IAM)</span>
+                  </CommandItem>
+                  <CommandItem className="h-12 rounded-xl cursor-pointer transition-colors aria-selected:bg-white/5 aria-selected:text-foreground" onSelect={() => runCommand(() => router.push("/admin/banks"))}>
+                    <Landmark className="mr-3 size-4 text-muted-foreground group-aria-selected:text-foreground" />
+                    <span className="font-semibold text-sm text-muted-foreground group-aria-selected:text-foreground">Bancos</span>
                   </CommandItem>
                 </CommandGroup>
               </>

@@ -2,7 +2,7 @@
 
 import { useI18n } from "@/shared/lib/i18n-context"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Users2, FolderKanban, ShieldCheck } from "lucide-react"
+import { LayoutDashboard, Users2, FolderKanban, ShieldCheck, Contact } from "lucide-react"
 import { cn } from "@/shared/lib/utils"
 
 interface MobileBottomNavProps {
@@ -28,10 +28,10 @@ export function MobileBottomNav({ profile }: MobileBottomNavProps) {
       isActive: pathname.startsWith("/projects"),
     },
     {
-      label: t("common.workers"),
-      icon: Users2,
-      href: "/workers",
-      isActive: pathname.startsWith("/workers"),
+      label: t("common.directory"),
+      icon: Contact,
+      href: "/users",
+      isActive: pathname.startsWith("/users"),
     },
   ]
 
@@ -39,7 +39,7 @@ export function MobileBottomNav({ profile }: MobileBottomNavProps) {
     navItems.push({
       label: "Admin",
       icon: ShieldCheck,
-      href: "/admin/users",
+      href: "/admin/profiles",
       isActive: pathname.startsWith("/admin"),
     })
   }

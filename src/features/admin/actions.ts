@@ -52,7 +52,7 @@ export async function updateProfile(userId: string, data: { role?: string }) {
 
   console.log("DEBUG: Update Successful. New Data:", updatedData[0])
 
-  revalidatePath('/admin/users')
+  revalidatePath('/admin/profiles')
   revalidatePath('/')
   
   return { success: true, profile: updatedData[0] }
